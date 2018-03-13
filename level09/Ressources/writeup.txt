@@ -1,0 +1,35 @@
+Level09
+
+Encore une fois un binaire et un file nommé token
+Le binaire attend un argument on lui passe token et on ne comprend pas grand chose ...
+On passe en argument 123456
+$> ./level09 "123456"
+13579;
+On comprend alors que le programme ajoute sur chaque caractere sa position - 1.
+On fait un programme en c pour verifier cela et qui fait exactement l'opposé:
+
+#include <string.h>
+#include <stdio.h>
+
+int main (int ac, char** av)
+{
+    size_t len = strlen(av[1]);
+    char pass[len];
+    pass[len] = '\0';
+    for (; len > 0; --len)
+        pass[len - 1] = (av[1][len - 1] - (len - 1));
+    pass[0] = av[1][0];
+    printf("%s\n", pass);
+    return 0;
+}
+
+$> cd /tmp
+$> gcc decrypt.c -o decrypt
+$> ./decrypt "13579;"
+123456
+$> ./decrypt `cat ~/token`
+f3iji1ju5yuevaus41q1afiuq
+$> su flag09
+Password: f3iji1ju5yuevaus41q1afiuq
+$> getflag
+Check flag.Here is your token : s5cAJpM8ev6XHw998pRWG728z
