@@ -1,0 +1,8 @@
+Level02
+scp -r -P 4242 [adresse/level02.pcap] ~/Documents/
+# On se sert de notre VM Kali pour utiliser un logiciel deja installe nomme Wireshark
+# On copie le fichier pcap dans cette VM et on l;'ouvre avec le programme
+# Clic droit sur une source puis on selectionne: Follow - TCP Stream
+# On remarque: 'Password: ft_wandr...NDRel.LOL'
+# Si on affiche en hexdump, nous remarquons que les '...' sont des 7f donc des delete, alors on essaye ft_waNDReLOL
+ft_waNDReLOL
