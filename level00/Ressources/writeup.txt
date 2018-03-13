@@ -1,0 +1,10 @@
+Level00
+find / -user flag00 2> /dev/null
+cat /usr/sbin/john
+# on trouve un password: cdiiddwpgswtgt, nous allons sur https://www.dcode.fr/chiffre-rot pour decrypter ce message. C'est un rot 15 qui nous donne le mdp pour le flag00: nottoohardhere
+su flag00
+nottoohardhere
+getflag
+# Cela donne le mot de passe pour le level01: x24ti5gi3x0ol2eh4esiuxias
+su level01
+x24ti5gi3x0ol2eh4esiuxias
