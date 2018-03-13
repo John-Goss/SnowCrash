@@ -1,0 +1,18 @@
+Level01
+On check le fichier /etc/passwd, pour le flag 01 on peut voir:
+flag01:42hDRfypTqqnw:3001:3001::/home/flag/flag01:/bin/bash
+
+On essaye cela por se connecter sauf que cela ne fonctionne pas.
+On utilise John the ripper sur notre VM Kali. Pour cela de notre VM on fait :
+$> scp -r -P 4242 level01@[adresse ip]:/etc/passwd ~/Documents
+Password: x24ti5gi3x0ol2eh4esiuxias
+$> john passwd --show
+flag01:abcdefg:3001:3001::/home/flag/flag01:/bin/bash
+
+1 Password hash cracked, 0 left
+
+Nous avons le mot de passe du flag02 :
+$> su flag02
+Password: abcdefg
+$> getflag
+f2av5il02puano7naaf6adaaf
