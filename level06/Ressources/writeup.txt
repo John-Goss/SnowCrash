@@ -1,0 +1,10 @@
+Level06
+Il y a un script php et un binaire
+Le binaire prend un paramètre et on execute avec le script en argument, ce qui fait un genre de print en boucle de ce script en le modifiant via des regex.
+Nous cherchons alors les failles liés au regex et on se rend compte que dans la premiere regex contient un "/e" ce qui est GRAVE car déprécié et bourré de problème.
+En effet un eval() sera effectué grace a ce "/e" et nous allons en profiter pour executer getflag directement.
+$> echo '[x ${`getflag`}]' > /tmp/regex
+Cela crée un fichier regex contenant de quoi matcher avec la premeire regex et exécutant le code getflag
+$> ./level06 /tmp/regex
+PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
+ in /home/user/level06/level06.php(4) : regexp code on line 1
