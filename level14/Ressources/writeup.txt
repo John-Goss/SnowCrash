@@ -1,0 +1,27 @@
+Rien à la racine, contrairement à d'habitude, après pas mal de recherches, on commence à explorer le /bin/getflag
+
+$> gdb /bin/getflag
+
+On se rend compte après quelques temps d'exploration qu'il fait un getuid ligne <main + 439> puis des cmp comme dans le level13
+Nous cherchons donc le cmp qui correspond à l'uid du flag14 soit 3014, on peux le voir en faisant
+$> cat /etc/passwd
+ flag14:x:3014:3014::/home/flag/flag14:/bin/bash
+
+Donc on crée un break point, juste avant le premier test de retour de ptrace donc a <0x0804898e>, on run, puis on jump a <0x08048de5> soit ja, ou le programme jump si il est executé avec le bon uid.
+
+$> (gdb) break *0x0804898e
+Breakpoint 1 at 0x804898e
+$> (gdb) run
+Starting program: /bin/getflag
+
+Breakpoint 1, 0x0804898e in main ()
+$> (gdb) jump *0x08048de5
+Continuing at 0x8048de5.
+7QiHafiNa3HVozsaXkawuYrTstxbpABHD8CPnHJ
+[Inferior 1 (process 3152) exited normally]
+
+$> su flag14
+Password:
+Congratulation. Type getflag to get the key and send it to me the owner of this livecd :)
+$> getflag
+Check flag.Here is your token : 7QiHafiNa3HVozsaXkawuYrTstxbpABHD8CPnHJ
