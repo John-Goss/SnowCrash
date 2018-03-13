@@ -1,0 +1,39 @@
+Un binaire level13 est a la racine, en l'executant
+$>./level13
+UID 2013 started us but we we expect 4242
+
+Nous sommes connecté en SSH avec le user level13 son uid est effectivement 2013, le binaire attend un uid 4242
+Dans un premier temps ont a tenté une injection dynamique pour override les fonctions de getuid, sans succes, le binaire se rend comte de la supercherie
+
+$> gdb level13
+(gdb) run
+Starting program: /home/user/level13/level13
+ERROR: ld.so: object '/tmp/myuid.so' from LD_PRELOAD cannot be preloaded: ignored.
+ERROR: ld.so: object '/tmp/myuid.so' from LD_PRELOAD cannot be preloaded: ignored.
+
+En desassemblant le binaire on se rend compte qu'il fait un compare du retour de la fonction getuid et de 0x1092 (4242).
+
+(gdb) disas main
+Dump of assembler code for function main:
+   0x0804858c <+0>:    push   %ebp
+   0x0804858d <+1>:    mov    %esp,%ebp
+   0x0804858f <+3>:    and    $0xfffffff0,%esp
+   0x08048592 <+6>:    sub    $0x10,%esp
+   0x08048595 <+9>:    call   0x8048380 <getuid@plt>
+ --->  0x0804859a <+14>:    cmp    $0x1092,%eax
+   0x0804859f <+19>:    je     0x80485cb <main+63>
+
+Donc nous essayons de mettre un breakpoint juste avant le cmp et de set le registre $eax à 4242.
+
+$>(gdb) break *0x0804859a
+Breakpoint 1 at 0x804859a
+$>(gdb) run
+Starting program: /home/user/level13/level13
+
+Breakpoint 1, 0x0804859a in main ()
+
+$>(gdb) set $eax = 4242
+$>(gdb) c
+Continuing.
+your token is 2A31L79asukciNyi8uppkEuSx
+[Inferior 1 (process 2093) exited with code 050]
